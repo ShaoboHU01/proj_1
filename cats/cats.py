@@ -102,7 +102,17 @@ def accuracy(typed, source):
     source_words = split(source)
     # BEGIN PROBLEM 3
     "*** YOUR CODE HERE ***"
-    
+    count=0
+    if len(typed_words)==0 and len(source_words)==0:
+        return 100.0
+    elif len(typed_words)==0 or len(source_words)==0:
+        return 0.0
+    for i in range(len(source_words)):
+        if i>=len(typed_words):
+            break
+        if typed_words[i]==source_words[i]:
+            count+=1
+    return (count/len(typed_words))*100.0
     # END PROBLEM 3
 
 
@@ -151,7 +161,16 @@ def autocorrect(typed_word, word_list, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
-
+    list=[]
+    min_word=""
+    min_word=min(word_list,key=lambda x: diff_function(typed_word,x,limit))
+    limit_new=diff_function(typed_word,min_word,limit)
+    if typed_word in word_list:
+        return typed_word
+    if limit_new>limit:
+        return typed_word
+    else:
+        return min_word
     # END PROBLEM 5
 
 
