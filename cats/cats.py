@@ -161,7 +161,6 @@ def autocorrect(typed_word, word_list, diff_function, limit):
     """
     # BEGIN PROBLEM 5
     "*** YOUR CODE HERE ***"
-    list=[]
     min_word=""
     min_word=min(word_list,key=lambda x: diff_function(typed_word,x,limit))
     limit_new=diff_function(typed_word,min_word,limit)
