@@ -340,6 +340,14 @@ def time_per_word(words, timestamps_per_player):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    list1=[]
+    for x in timestamps_per_player:
+        list=[]
+        for i in range (1,len(x)):
+            diff=x[i]-x[i-1]
+            list.append(diff)
+        list1.append(list)
+    return match(words, list1)
     # END PROBLEM 9
 
 
@@ -362,6 +370,23 @@ def fastest_words(match):
     word_indices = range(len(get_all_words(match)))    # contains an *index* for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
+     list=[]
+    nested_list=[[] for _ in (player_indices)]
+    
+    for x in word_indices:
+        fatest_player=0
+        fatest_time=999999999999
+        for players in player_indices:
+            if time(match, players, x)<fatest_time:
+                fatest_time=time(match, players, x)
+                fatest_player=players
+        list.append(fatest_player)
+
+    for players in player_indices:
+        for i in word_indices:
+            if players==list[i]:
+                nested_list[players].append(get_word(match,i))
+    return nested_list
     # END PROBLEM 10
 
 
