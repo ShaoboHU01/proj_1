@@ -275,7 +275,7 @@ class FireAnt(Ant):
         p=self.place
         for i in p.bees[:]:
             i.reduce_health(amount)
-        if self.health<amount:
+        if self.health<=amount:
             for i in p.bees[:]:
                 i.reduce_health(self.damage)
             super().reduce_health(amount)
@@ -305,11 +305,16 @@ class ContainerAnt(Ant):
     def can_contain(self, other):
         # BEGIN Problem 8a
         "*** YOUR CODE HERE ***"
+        if self.ant_contained is None and not other.is_container:
+            return True
+        else:
+            return False
         # END Problem 8a
 
     def store_ant(self, ant):
         # BEGIN Problem 8a
         "*** YOUR CODE HERE ***"
+        self.ant_contained=ant
         # END Problem 8a
 
     def remove_ant(self, ant):
@@ -330,6 +335,7 @@ class ContainerAnt(Ant):
     def action(self, gamestate):
         # BEGIN Problem 8a
         "*** YOUR CODE HERE ***"
+        self.ant_contained.action(gamestate)
         # END Problem 8a
 
 
@@ -340,7 +346,7 @@ class BodyguardAnt(ContainerAnt):
     food_cost = 4
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 8c
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 8c
 
 # BEGIN Problem 9
