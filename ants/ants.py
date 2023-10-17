@@ -195,10 +195,10 @@ class ThrowerAnt(Ant):
         transition = 0
         p=self.place
         while not (p.is_hive):
-            print("DEBUG:",p,p.entrance)
-            if len(p.bees):
+            if len(p.bees) and self.lower_bound <= transition <= self.upper_bound:
                 return random_bee(p.bees)
             p = p.entrance
+            transition+=1
         return None
         # END Problem 3 and 4
 
@@ -231,7 +231,8 @@ class ShortThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    upper_bound=3
+    implemented = True   # Change to True to view in the GUI
     # END Problem 4
 
 
@@ -242,7 +243,8 @@ class LongThrower(ThrowerAnt):
     food_cost = 2
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 4
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
+    lower_bound=5
     # END Problem 4
 
 
@@ -254,7 +256,7 @@ class FireAnt(Ant):
     food_cost = 5
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 5
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     # END Problem 5
 
     def __init__(self, health=3):
@@ -270,6 +272,15 @@ class FireAnt(Ant):
         """
         # BEGIN Problem 5
         "*** YOUR CODE HERE ***"
+        p=self.place
+        for i in p.bees[:]:
+            i.reduce_health(amount)
+        if self.health<amount:
+            for i in p.bees[:]:
+                i.reduce_health(self.damage)
+            super().reduce_health(amount)
+        else:
+            super().reduce_health(amount)
         # END Problem 5
 
 # BEGIN Problem 6
