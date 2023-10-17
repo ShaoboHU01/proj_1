@@ -135,6 +135,11 @@ class Ant(Insect):
         else:
             # BEGIN Problem 8b
             assert place.ant is None, 'Two ants in {0}'.format(place)
+            if self.is_container and self.can_contain(place.ant):
+                self.store_ant(place.ant)
+                place.ant=self
+            elif place.ant.is_container and place.ant.can_contain(self):
+                place.ant.store_ant(self)
             # END Problem 8b
         Insect.add_to(self, place)
 
@@ -335,7 +340,8 @@ class ContainerAnt(Ant):
     def action(self, gamestate):
         # BEGIN Problem 8a
         "*** YOUR CODE HERE ***"
-        self.ant_contained.action(gamestate)
+        if self.ant_contained is not None:
+            self.ant_contained.action(gamestate)
         # END Problem 8a
 
 
@@ -347,10 +353,28 @@ class BodyguardAnt(ContainerAnt):
     # OVERRIDE CLASS ATTRIBUTES HERE
     # BEGIN Problem 8c
     implemented = True   # Change to True to view in the GUI
+    def __init__(self, health=2):
+        super().__init__(health)
     # END Problem 8c
 
 # BEGIN Problem 9
 # The TankAnt class
+class TankAnt(ContainerAnt):
+    """Tankant protects an ant in its place and also deals 1 damage to all bees in its place each turn"""
+    name = 'Tank'
+    food_cost = 6
+    # OVERRIDE CLASS ATTRIBUTES HERE
+    damage=1
+    # BEGIN Problem 8c
+    implemented = True   # Change to True to view in the GUI
+    def __init__(self, health=2):
+        super().__init__(health)
+    
+    def action(self, gamestate):
+        if self.ant_contained is not None:
+            self.ant_contained.action(self, gamestate)
+        for i in self.place.bees[:]:
+            i.reduce_health(1)
 # END Problem 9
 
 
