@@ -58,6 +58,17 @@ class Frame:
             raise SchemeError('Incorrect number of arguments to function call')
         # BEGIN PROBLEM 8
         "*** YOUR CODE HERE ***"
+        # 1. check if formals and vals have different length done
+        # 2. create a new frame instance, with parent as self done
+        child_frame = Frame(self)
+        # 3. Bind each formal parameter to its corresponding argument value in the newly crea
+            #iterate
+        while formals is not nil:
+            child_frame.define(formals.first,vals.first)
+            formals=formals.rest
+            vals=vals.rest
+        # 4. Return the new frame
+        return child_frame
         # END PROBLEM 8
 
 ##############
